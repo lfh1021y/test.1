@@ -1,0 +1,54 @@
+#include <stdio.h>
+void yuefen(float a,int*b){
+    int fenzi;
+    int fenmu=1;
+    int f,max,min;
+    while(a-(int)a!=0){  /*循环将分子分母都化成未约分的整数*/
+        a*=10;
+        fenmu*=10;
+    }
+    fenzi=a;
+    /*通过求最大公约数对分子分母进行约分*/
+    if(fenzi>fenmu){
+        max=fenzi;
+        min=fenmu;
+    }
+    else{
+        max=fenmu;
+        min=fenzi;
+    }
+    f=max%min;
+    while(f){
+        max=min;
+        min=f;
+        f=max%min;
+    }
+    fenzi/=min;
+    fenmu/=min;
+    /*将求得的分子分母储存在数组中*/
+    b[0]=fenzi;
+    b[1]=fenmu;
+}
+int main(int argc, const char * argv[]) {
+    float x,y,z;  /*输入三个定点的位置*/
+    int x1,x2,x3; /*三个转盘的半径分别为x1,x2,x3*/
+    int b[2];
+    printf("请输入三个整数x1,x2,x3\n");
+    scanf("%d%d%d",&x1,&x2,&x3);
+    x=4*x2-2*x1-2*x3;  /*算三个圆盘的半径*/
+    y=2*x3-3*x2+x1;
+    z=x/2;
+    /*判断算出的半径是否符合实际，满足条件时输出半径否则输出-1*/
+    if(x!=y&&x!=z&&y!=z&&x>0&&y>0&&z>0){
+    yuefen(x,b);
+    printf("%d %d ",b[0],b[1]);
+    yuefen(y,b);
+    printf("%d %d ",b[0],b[1]);
+    yuefen(z,b);
+    printf("%d %d\n",b[0],b[1]);
+    }
+    else{
+        printf("-1\n");
+    }
+    return 0;
+}
